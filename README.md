@@ -26,6 +26,13 @@ these companies.
 
 ## Arrticles
 
+### The SwirlAI data engineering project
+* Title: The SwirlAI data engineering project
+* Author: Aurimas Griciūnas
+  ([Aurimas Griciūnas on LinkedIn](https://www.linkedin.com/in/aurimas-griciunas/), [Aurimas Griciūnas on Substck](https://substack.com/@swirlai))
+* Date: July 2023
+* Link on Substack: https://www.newsletter.swirlai.com/p/the-swirlai-data-engineering-project
+
 ## Frameworks
 
 ### LakeFS
