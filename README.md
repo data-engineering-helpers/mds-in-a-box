@@ -44,5 +44,8 @@ these companies.
   https://duckdb.org/2022/10/12/modern-data-stack-in-a-box.html
 * See also
   https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/db/duckdb/README.md
+* DuckDB home page: https://duckdb.org/
+   + Why DuckDB: https://duckdb.org/why_duckdb
+* DuckDB project on GitHub: https://github.com/duckdb/duckdb
 
 
