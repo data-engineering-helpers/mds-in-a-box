@@ -3,10 +3,10 @@ Modern Data Stack (MDS) in a box
 
 # Overview
 [This project](https://github.com/data-engineering-helpers/mds-in-a-box)
-intends to gather referential material and give practical hints
+intends to gather referential material and to give practical hints
 on how to reprodce locally all-in-one modern data stack (MDS).
 
-Among other uses cases, we may think of training, onboarding newcomers,
+Among other use cases, we may think of training, onboarding newcomers,
 testing/benchmarking some new components (_e.g._, Delta Lake vs Iceberg
 vs Hudi), LakeFS.
 
