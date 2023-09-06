@@ -47,6 +47,10 @@ these companies.
 * See also
   [GitHub - Data Engineering Helpers - Knowledge Sharing - LakeFS](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/frameworks/lakefs/README.md)
 
+## PostgreSQL
+* See also
+  [GitHub - Data Engineering Helpers - Knowledge Sharing - PostgreSQL](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/db/postgresql/README.md)
+
 ## DuckDB
 * Reference:
   https://duckdb.org/2022/10/12/modern-data-stack-in-a-box.html
