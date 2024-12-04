@@ -1,6 +1,22 @@
 Modern Data Stack (MDS) in a box
 ================================
 
+# Table of Content (ToC)
+* [Overview](#overview)
+* [References](#references)
+* [Articles](#articles)
+  * [The SwirlAI data engineering project](#the-swirlai-data-engineering-project)
+* [Frameworks](#frameworks)
+  * [Minio](#minio)
+  * [LakeFS](#lakefs)
+  * [PostgreSQL](#postgresql)
+  * [DuckDB](#duckdb)
+* [End\-to\-end projects](#end-to-end-projects)
+  * [Bike sharing](#bike-sharing)
+  * [Car price predictor](#car-price-predictor)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
+
 # Overview
 [This project](https://github.com/data-engineering-helpers/mds-in-a-box)
 intends to gather referential material and to give practical hints
