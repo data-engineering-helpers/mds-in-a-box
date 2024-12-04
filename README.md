@@ -12,6 +12,7 @@ Modern Data Stack (MDS) in a box
   * [PostgreSQL](#postgresql)
   * [DuckDB](#duckdb)
 * [End\-to\-end projects](#end-to-end-projects)
+  * [Building an End\-to\-end MLOps Project with Databricks](#building-an-end-to-end-mlops-project-with-databricks)
   * [Bike sharing](#bike-sharing)
   * [Car price predictor](#car-price-predictor)
 
@@ -74,10 +75,29 @@ these companies.
 * See also
   [GitHub - Data Engineering Helpers - Knowledge Sharing - DuckDB](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/db/duckdb/README.md)
 * DuckDB home page: https://duckdb.org/
-   + Why DuckDB: https://duckdb.org/why_duckdb
+   * Why DuckDB: https://duckdb.org/why_duckdb
 * DuckDB project on GitHub: https://github.com/duckdb/duckdb
 
 # End-to-end projects
+
+## Building an End-to-end MLOps Project with Databricks
+* Article: https://medium.com/marvelous-mlops/building-an-end-to-end-mlops-project-with-databricks-8cd9a85cc3c0
+* Author: Benito Martin
+  ([Benito Martin on LinkedIn](https://www.linkedin.com/in/benitomzh/),
+  [Benito Martin on  Medium](https://medium.com/@benitomartin))
+
+This blog post details a capstone project using Databricks for MLOps. It covers the end-to-end process
+of deploying a machine learning model, from data preprocessing and feature engineering to model monitoring and continuous integration/continuous deployment (CI/CD).
+Key learnings include:
+* Databricks for MLOps:  Using Databricks for data preprocessing, feature engineering, model training, and deployment.
+* Feature Store: Leveraging Databricks Feature Store for consistent feature computation.
+* MLflow Tracking: Tracking experiments, logging parameters and metrics, and ensuring reproducibility.
+* Model Serving: Exploring different model serving architectures for efficient deployment.
+* A/B Testing: Implementing A/B testing for model comparison and performance-based routing.
+* Databricks Asset Bundles: Managing projects with Infrastructure-as-Code (IaC) principles.
+* Monitoring and Drift Detection: Setting up model monitoring, tracking metrics, and detecting drift.
+* CI/CD: Implementing CI/CD workflows for continuous model validation and deployment.
+* Scalability: Scaling models for production and real-time serving.
 
 ## Bike sharing
 * Post on LinkedIn: https://www.linkedin.com/posts/pau-labarta-bajo-4432074b_machinelearning-mlops-realworldml-ugcPost-7265607334830256128-ZkrV/
