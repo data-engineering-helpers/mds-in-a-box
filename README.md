@@ -61,3 +61,18 @@ these companies.
    + Why DuckDB: https://duckdb.org/why_duckdb
 * DuckDB project on GitHub: https://github.com/duckdb/duckdb
 
+# End-to-end projects
+
+## Bike sharing
+* Post on LinkedIn: https://www.linkedin.com/posts/pau-labarta-bajo-4432074b_machinelearning-mlops-realworldml-ugcPost-7265607334830256128-ZkrV/
+  * Authors: Paul Labarta Bajo and Javier Yanzon
+    ([Paul Labarta Bajo on LinkedIn](https://www.linkedin.com/in/pau-labarta-bajo-4432074b/),
+    [Javier Yanzon on LinkedIn](https://www.linkedin.com/in/javieryanzon/))
+* GitHub repository: https://github.com/javieryanzon/bike_sharing_demand_predictor
+
+## Car price predictor
+* Article: https://medium.com/towards-data-engineering/predicting-car-prices-with-fastapi-streamlit-mlflow-kafka-and-debezium-a-practical-7084d5673c0e
+* Author: Stefen Taime
+  ([Stefen Taime on LinkedIn](https://www.linkedin.com/in/stefen-taime-829492117/))
+* GitHub repository: https://github.com/Stefen-Taime/car-price-predictor
+
