@@ -68,17 +68,17 @@ these companies.
 ### SeaweedFS
 
 * See also
-  [GitHub - Data Engineering Helpers - Knowledge Sharing - SeaweedFS](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/frameworks/seaweedfs/README.md)
+  [GitHub - Data Engineering Helpers - Knowledge Sharing - SeaweedFS](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/data-storage/seaweedfs/)
 
 ### PostgreSQL
 
 * See also
-  [GitHub - Data Engineering Helpers - Knowledge Sharing - PostgreSQL](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/db/postgresql/README.md)
+  [GitHub - Data Engineering Helpers - Knowledge Sharing - PostgreSQL](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/db/postgresql/)
 
 ### DuckDB
 
 * See also
-  [GitHub - Data Engineering Helpers - Knowledge Sharing - DuckDB](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/db/duckdb/README.md)
+  [GitHub - Data Engineering Helpers - Knowledge Sharing - DuckDB](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/db/duckdb/)
 * [DuckDB blog - MDS in a box](https://duckdb.org/2022/10/12/modern-data-stack-in-a-box.html)
 * [DuckDB home page](https://duckdb.org/)
   * [Why DuckDB](https://duckdb.org/why_duckdb)
@@ -89,13 +89,13 @@ these companies.
 ### Minio
 
 * See also
-  [GitHub - Data Engineering Helpers - Knowledge Sharing - Minio](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/frameworks/minio/README.md)
+  [GitHub - Data Engineering Helpers - Knowledge Sharing - Minio](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/data-storage/minio/)
 
 ### LakeFS
 
 * [LakeFS blog - Spin up a local data stack](https://lakefs.io/blog/the-docker-everything-bagel-spin-up-a-local-data-stack/)
 * See also
-  [GitHub - Data Engineering Helpers - Knowledge Sharing - LakeFS](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/frameworks/lakefs/README.md)
+  [GitHub - Data Engineering Helpers - Knowledge Sharing - LakeFS](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/data-storage/lakefs/)
 
 ## End-to-end projects
 
