@@ -12,9 +12,9 @@
     * [SeaweedFS](#seaweedfs)
     * [PostgreSQL](#postgresql)
     * [DuckDB](#duckdb)
-    * [Alternative frameworks](#alternative-frameworks)
-  * [Minio](#minio)
-  * [LakeFS](#lakefs)
+  * [Alternative frameworks](#alternative-frameworks)
+    * [Minio](#minio)
+    * [LakeFS](#lakefs)
   * [End\-to\-end projects](#end-to-end-projects)
     * [Build a local open data lakehouse](#build-a-local-open-data-lakehouse)
     * [Building an End\-to\-end MLOps Project with Databricks](#building-an-end-to-end-mlops-project-with-databricks)
@@ -81,14 +81,14 @@ these companies.
   * [Why DuckDB](https://duckdb.org/why_duckdb)
 * [DuckDB project on GitHub](https://github.com/duckdb/duckdb)
 
-### Alternative frameworks
+## Alternative frameworks
 
-## Minio
+### Minio
 
 * See also
   [GitHub - Data Engineering Helpers - Knowledge Sharing - Minio](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/frameworks/minio/README.md)
 
-## LakeFS
+### LakeFS
 
 * [LakeFS blog - Spin up a local data stack](https://lakefs.io/blog/the-docker-everything-bagel-spin-up-a-local-data-stack/)
 * See also
