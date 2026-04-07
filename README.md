@@ -12,6 +12,7 @@ Modern Data Stack (MDS) in a box
   * [PostgreSQL](#postgresql)
   * [DuckDB](#duckdb)
 * [End\-to\-end projects](#end-to-end-projects)
+  * [Build a local open data lakehouse](#build-a-local-open-data-lakehouse)
   * [Building an End\-to\-end MLOps Project with Databricks](#building-an-end-to-end-mlops-project-with-databricks)
   * [Bike sharing](#bike-sharing)
   * [Car price predictor](#car-price-predictor)
@@ -79,6 +80,19 @@ these companies.
 * DuckDB project on GitHub: https://github.com/duckdb/duckdb
 
 # End-to-end projects
+
+## Build a local open data lakehouse
+* Title: Build a local open data lakehouse with k3d, Apache Ozone, Apache Polaris and Trino
+* [Article on Medium](https://medium.com/@cyancg/build-a-local-open-data-lakehouse-with-k3d-apache-ozone-apache-polaris-and-trino-cbe3adf8ad57)
+  * Date: Apr. 2026
+* Author: Cheng Guan Poh
+  ([Cheng Guan Poh on LinkedIn](https://www.linkedin.com/in/cgpoh/),
+  [Cheng Guan Poh on Medium](https://medium.com/@cyancg))
+* Overview:
+> Spin up a fully integrated, locally-running open data lakehouse on your laptop
+> in under 30 minutes using Kubernetes in Docker (k3d), Apache Ozone as S3-compatible
+> object storage, Apache Polaris as the Iceberg REST catalog and Trino as
+> the SQL query engine. No cloud account required.
 
 ## Building an End-to-end MLOps Project with Databricks
 * Article: https://medium.com/marvelous-mlops/building-an-end-to-end-mlops-project-with-databricks-8cd9a85cc3c0
