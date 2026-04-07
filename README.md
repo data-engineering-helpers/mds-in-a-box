@@ -67,6 +67,9 @@ these companies.
 
 ### SeaweedFS
 
+* See also
+  [GitHub - Data Engineering Helpers - Knowledge Sharing - SeaweedFS](https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/frameworks/seaweedfs/README.md)
+
 ### PostgreSQL
 
 * See also
