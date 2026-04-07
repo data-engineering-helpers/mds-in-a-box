@@ -83,8 +83,10 @@ these companies.
 
 ## Build a local open data lakehouse
 * Title: Build a local open data lakehouse with k3d, Apache Ozone, Apache Polaris and Trino
-* [Article on Medium](https://medium.com/@cyancg/build-a-local-open-data-lakehouse-with-k3d-apache-ozone-apache-polaris-and-trino-cbe3adf8ad57)
-  * Date: Apr. 2026
+* Articles:
+  * [Medium - Build a local open data lakehouse](https://medium.com/@cyancg/build-a-local-open-data-lakehouse-with-k3d-apache-ozone-apache-polaris-and-trino-cbe3adf8ad57)
+    * Date: Apr. 2026
+  * [Medium - Deploying Keycloak and Superset](https://medium.com/@cyancg/deploying-keycloak-and-apache-superset-on-k3d-with-sso-2531ee52c658)
 * Author: Cheng Guan Poh
   ([Cheng Guan Poh on LinkedIn](https://www.linkedin.com/in/cgpoh/),
   [Cheng Guan Poh on Medium](https://medium.com/@cyancg))
