@@ -7,6 +7,7 @@
   * [Overview](#overview)
   * [References](#references)
   * [Articles](#articles)
+    * [Iceberg lakehouse in a box](#iceberg-lakehouse-in-a-box)
     * [The SwirlAI data engineering project](#the-swirlai-data-engineering-project)
   * [Frameworks](#frameworks)
     * [SeaweedFS](#seaweedfs)
@@ -56,9 +57,9 @@ these companies.
 
 ### Iceberg lakehouse in a box
 
-* Polaris blog:
-  https://polaris.apache.org/blog/2026/04/04/build-a-local-open-data-lakehouse-with-k3d-apache-ozone-apache-polaris-and-trino/
-* Author: CG Poh https://www.linkedin.com/in/cgpoh
+* [Polaris blog - Build a local open data lakehouse with k3d Apache Ozone, Apache Polaris and Trino](https://polaris.apache.org/blog/2026/04/04/build-a-local-open-data-lakehouse-with-k3d-apache-ozone-apache-polaris-and-trino/)
+* Author: CG Poh
+  ([CG Poh on LinkedIn](https://www.linkedin.com/in/cgpoh))
 
 ### The SwirlAI data engineering project
 
