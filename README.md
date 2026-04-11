@@ -54,6 +54,12 @@ these companies.
 
 ## Articles
 
+### Iceberg lakehouse in a box
+
+* Polaris blog:
+  https://polaris.apache.org/blog/2026/04/04/build-a-local-open-data-lakehouse-with-k3d-apache-ozone-apache-polaris-and-trino/
+* Author: CG Poh https://www.linkedin.com/in/cgpoh
+
 ### The SwirlAI data engineering project
 
 * Title: The SwirlAI data engineering project
