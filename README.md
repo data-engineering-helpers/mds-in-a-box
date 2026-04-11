@@ -106,7 +106,20 @@ these companies.
 
 ## End-to-end projects
 
-### Build a local open data lakehouse
+### Unity Catalog playground
+
+* [GitHub - Unity Catalog playground](https://github.com/newfront/unitycatalog-playground)
+
+### Lakehouse at home
+
+* [GitHub - Lakehouse at home](https://github.com/lisancao/lakehouse-at-home)
+* Author: Lisa N. Cao
+  ([Lisa N. Cao on LinkedIn](https://www.linkedin.com/in/lisancao/),
+  [Lisa N. Cao on GitHub](https://github.com/lisancao))
+* [Medium - Declarative Pipelining in Apache Spark Part 1](https://medium.com/apache-spark/declarative-pipelining-in-apache-spark-part-1-focus-on-your-data-not-your-dags-553a1056d178),
+  March 2026
+
+### Build a Iceberg-based local open data lakehouse
 
 * Title: Build a local open data lakehouse with k3d, Apache Ozone,
   Apache Polaris and Trino

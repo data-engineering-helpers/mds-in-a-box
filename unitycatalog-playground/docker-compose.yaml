@@ -1,0 +1,90 @@
+#
+# File: https://github.com/data-engineering-helpers/mds-in-a-box/tree/main/unitycatalog-playground/docker-compose.yaml
+#
+# Inspired by:
+# * For Unity Catalog: https://github.com/unitycatalog/unitycatalog/blob/main/compose.yaml for the full compose file.
+# * For SeaweedFS: https://github.com/seaweedfs/seaweedfs/blob/master/docker/seaweedfs-compose.yml
+#
+# unitycatalog image:
+# * On Docker Hub: https://hub.docker.com/r/unitycatalog/unitycatalog/tags
+# * Dockerfile on GitHub: https://github.com/unitycatalog/unitycatalog/blob/main/Dockerfile
+#
+# seaweedfs image:
+# * On Docker Hub: https://hub.docker.com/r/chrislusf/seaweedfs
+# * Dockerfile on GitHub: https://github.com/seaweedfs/seaweedfs/blob/master/docker/Dockerfile.e2e
+#
+name: lakehouse
+
+services:
+
+  unitycatalog:
+    image: unitycatalog/unitycatalog:main
+    hostname: unitycatalog
+    container_name: unitycatalog
+    ports:
+      - "8080:8080"
+    volumes:
+      - type: bind
+        source: ./etc/conf/server.properties
+        target: /home/unitycatalog/etc/conf/server.properties
+      # todo add a long-term database here since it can 
+      # trip up the process when spinning the environment back up.
+      - type: volume
+        source: unitycatalog_data
+        target: /home/unitycatalog/etc/data
+    networks:
+      - unity
+
+# SeaweedFS
+# Inspired from: https://github.com/seaweedfs/seaweedfs/blob/master/docker/seaweedfs-compose.yml
+#
+  master:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      - 9333:9333
+      - 19333:19333
+      - 9324:9324
+    command: 'master -ip=master -ip.bind=0.0.0.0 -metricsPort=9324'
+
+  volume:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      - 8060:8060
+      - 18080:18080
+      - 9325:9325
+    command: 'volume -ip=volume -master="master:9333" -ip.bind=0.0.0.0 -port=8060 -metricsPort=9325'
+    depends_on:
+      - master
+
+  filer:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      - 8888:8888
+      - 18888:18888
+      - 9326:9326
+    command: 'filer -ip=filer -master="master:9333" -ip.bind=0.0.0.0 -metricsPort=9326'
+    tty: true
+    stdin_open: true
+    depends_on:
+      - master
+      - volume
+
+  s3:
+    image: chrislusf/seaweedfs # use a remote image
+    ports:
+      - 8333:8333
+      - 9327:9327
+    command: 's3 -filer="filer:8888" -ip.bind=0.0.0.0 -metricsPort=9327'
+    depends_on:
+      - master
+      - volume
+      - filer
+
+networks:
+  unity:
+    driver: bridge
+
+volumes:
+  # Persist docker volume across container restarts
+  unitycatalog_data:
+
