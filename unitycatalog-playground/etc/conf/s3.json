@@ -1,0 +1,34 @@
+{
+  "identities": [{
+    "name": "anonymous",
+    "actions": [
+      "Read:lakehouse"
+    ]
+  },
+  {
+    "name": "admin",
+    "credentials": [
+      {
+		"accessKey": "1234567890DEMO0KEY00",
+        "secretKey": "RediDemoKey0011223344556677ToBeReplaced0"
+      }
+    ],
+    "actions": [
+      "Admin"
+    ]
+  },
+  {
+    "name": "user",
+    "credentials": [
+      {
+		"accessKey": "1234567890DEMO0KEY01",
+        "secretKey": "RediDemoKey0011223344556677ToBeReplaced1"
+      }
+    ],
+    "actions": [
+      "Read:lakehouse",
+      "Write:lakehouse"
+    ]
+  }]
+}
+

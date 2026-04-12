@@ -2,12 +2,18 @@
 # File: https://github.com/data-engineering-helpers/mds-in-a-box/tree/main/unitycatalog-playground/docker-compose.yaml
 #
 # Inspired by:
-# * For Unity Catalog: https://github.com/unitycatalog/unitycatalog/blob/main/compose.yaml for the full compose file.
+# * For Unity Catalog (UC):
+#   * Pristine UC: https://github.com/unitycatalog/unitycatalog/blob/main/compose.yaml
+#   * Lakehouse at home: https://github.com/lisancao/lakehouse-at-home/blob/master/docker-compose-unity-catalog.yml
 # * For SeaweedFS: https://github.com/seaweedfs/seaweedfs/blob/master/docker/seaweedfs-compose.yml
 #
 # unitycatalog image:
-# * On Docker Hub: https://hub.docker.com/r/unitycatalog/unitycatalog/tags
+# * On Docker Hub: https://hub.docker.com/r/unitycatalog/unitycatalog
 # * Dockerfile on GitHub: https://github.com/unitycatalog/unitycatalog/blob/main/Dockerfile
+#
+# unitycatalog-ui image:
+# * On Docker Hub: https://hub.docker.com/r/unitycatalog/unitycatalog-ui
+# * Dockerfile on GitHub: https://github.com/unitycatalog/unitycatalog/blob/main/ui/Dockerfile
 #
 # seaweedfs image:
 # * On Docker Hub: https://hub.docker.com/r/chrislusf/seaweedfs
@@ -17,37 +23,58 @@ name: lakehouse
 
 services:
 
-  unitycatalog:
+  unity-catalog:
     image: unitycatalog/unitycatalog:main
-    hostname: unitycatalog
-    container_name: unitycatalog
+    # hostname: unity-catalog
+    container_name: unity-catalog
     ports:
+      # REST API + Iceberg REST Catalog endpoint
       - "8080:8080"
+    environment:
+      - JAVA_OPTS=-Xmx2g
+    command: 'bin/start-uc-server'
     volumes:
       - type: bind
         source: ./etc/conf/server.properties
         target: /home/unitycatalog/etc/conf/server.properties
       # todo add a long-term database here since it can 
       # trip up the process when spinning the environment back up.
-      - type: volume
-        source: unitycatalog_data
-        target: /home/unitycatalog/etc/data
+      #- type: volume
+      #  source: unitycatalog_data
+      #  target: /home/unitycatalog/etc/data
     networks:
-      - unity
+      - lhnet
+
+  unity-catalog-ui:
+    image: unitycatalog/unitycatalog-ui:main
+    container_name: unity-catalog-ui
+    ports:
+      - "3000:3000"
+    environment:
+      - UC_API_URL=http://unity-catalog:8080
+    command: 'yarn start'
+    depends_on:
+      - unity-catalog
+    networks:
+      - lhnet
 
 # SeaweedFS
 # Inspired from: https://github.com/seaweedfs/seaweedfs/blob/master/docker/seaweedfs-compose.yml
 #
   master:
     image: chrislusf/seaweedfs # use a remote image
+    container_name: master
     ports:
       - 9333:9333
       - 19333:19333
       - 9324:9324
     command: 'master -ip=master -ip.bind=0.0.0.0 -metricsPort=9324'
+    networks:
+      - lhnet
 
   volume:
     image: chrislusf/seaweedfs # use a remote image
+    container_name: volume
     ports:
       - 8060:8060
       - 18080:18080
@@ -55,33 +82,49 @@ services:
     command: 'volume -ip=volume -master="master:9333" -ip.bind=0.0.0.0 -port=8060 -metricsPort=9325'
     depends_on:
       - master
+    networks:
+      - lhnet
 
   filer:
     image: chrislusf/seaweedfs # use a remote image
+    container_name: filer
     ports:
       - 8888:8888
       - 18888:18888
       - 9326:9326
-    command: 'filer -ip=filer -master="master:9333" -ip.bind=0.0.0.0 -metricsPort=9326'
+    volumes:
+      - type: bind
+        source: ./etc/conf/s3.json
+        target: /etc/seaweedfs/s3.json
+    command: 'filer -s3.config=/etc/seaweedfs/s3.json -ip=filer -master="master:9333" -ip.bind=0.0.0.0 -metricsPort=9326'
     tty: true
     stdin_open: true
     depends_on:
       - master
       - volume
+    networks:
+      - lhnet
 
   s3:
     image: chrislusf/seaweedfs # use a remote image
+    container_name: s3
     ports:
       - 8333:8333
       - 9327:9327
-    command: 's3 -filer="filer:8888" -ip.bind=0.0.0.0 -metricsPort=9327'
+    volumes:
+      - type: bind
+        source: ./etc/conf/s3.json
+        target: /etc/seaweedfs/s3.json
+    command: 's3 -config=/etc/seaweedfs/s3.json -filer="filer:8888" -ip.bind=0.0.0.0 -metricsPort=9327'
     depends_on:
       - master
       - volume
       - filer
+    networks:
+      - lhnet
 
 networks:
-  unity:
+  lhnet:
     driver: bridge
 
 volumes:
