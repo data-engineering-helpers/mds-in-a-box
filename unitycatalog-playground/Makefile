@@ -10,11 +10,21 @@ AWS_REGION := us-east-1
 
 
 ## Container start/stop
-container-start: ## Start Docker containers
-	@docker compose up --remove-orphans -d
+container-start-seaweedfs: ## Start SeaweedFS Docker containers
+	@docker compose -f docker-compose-seaweedfs.yaml up --remove-orphans -d
 
-container-stop: ## Stop Docker containers
-	@docker compose down
+container-start-uc: ## Start Unity Catalog (UC) Docker containers
+	@docker compose -f docker-compose.yaml up --remove-orphans -d
+
+container-start-all: container-start-seaweedfs container-start-uc ## Start Docker containers
+
+container-stop-seaweedfs: ## Stop SeaweedFS Docker containers
+	@docker compose -f docker-compose-seaweedfs.yaml down
+
+container-stop-uc: ## Stop Unity Catalog (UC) Docker containers
+	@docker compose -f docker-compose.yaml down
+
+container-stop-all: container-stop-seaweedfs container-stop-uc ## Stop Docker containers
 
 ## Init
 
