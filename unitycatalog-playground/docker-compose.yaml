@@ -38,8 +38,14 @@ services:
       # todo add a long-term database here since it can 
       # trip up the process when spinning the environment back up.
       #- type: volume
-      #  source: unitycatalog_data
+      #  source: uc-data
       #  target: /home/unitycatalog/etc/data
+      #- type: volume
+      #  source: uc-db
+      #  target: /home/unitycatalog/etc/db
+      #- type: volume
+      #  source: uc-logs
+      #  target: /home/unitycatalog/etc/logs
     networks:
       - lhnet
 
@@ -55,6 +61,14 @@ services:
       - unity-catalog
     networks:
       - lhnet
+
+volumes:
+  uc-data:
+    driver: local
+  uc-db:
+    driver: local
+  uc-logs:
+    driver: local
 
 networks:
   lhnet:
