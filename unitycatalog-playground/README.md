@@ -26,9 +26,39 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 [This section](https://github.com/data-engineering-helpers/mds-in-a-box/tree/main/unitycatalog-playground/)
 is part of the
 [Modern Data Stack (MDS) in a box Knowledge Sharing (KS) repository](https://github.com/data-engineering-helpers/mds-in-a-box)
-and showcases the open source Unity Catalog project and introduces a full
-notebook environment for simplifying how to work with the open source (OSS)
-version of Unity Catalog (UC).
+and showcases a fully open-source, self-hostable data lakehouse for local development and testing
+of modern data workflows. It features production-grade infrastructure on a laptop with Unity Catalog,
+the Apache Spark ecosystem (Spark, Spark Connect, Delta Lake, Delta Connect), and Kafka - no cloud account required.
+In the future, it will include a realistic data generation framework to test batch and streaming pipelines.
+
+**Why Unity Catalog playground?**
+- **Learn** data engineering with real tools, not toy examples
+- **Develop** and test Spark jobs locally before deploying to production
+- **Experiment** with Delta Lake table formats, streaming pipelines, and medallion architecture
+- **Deploy** (optional) to a cloud provider when ready using
+  [Databricks Declarative Automation Bundles (DAB)](https://docs.databricks.com/aws/en/dev-tools/bundles/)
+
+## Stack
+
+| Component | Version | Purpose |
+|-----------|---------|---------|
+| Unity Catalog | 0.4.0 | REST catalog (optional) |
+| Apache Spark | 4.1 / 4.2 | Distributed compute |
+| Delta Lake | 4.1 / 4.2 | ACID table format (optional) |
+| SeaweedFS | - | S3-compatible storage (optional) |
+| Apache Airflow | 3.1 | Workflow orchestration (optional) |
+| Apache Kafka | 3.6 | Event streaming (optional) |
+| PostgreSQL | 18 | Catalog metadata (optional) |
+
+## Requirements
+
+| Resource | Minimum | Recommended |
+|----------|---------|-------------|
+| RAM | 8 GB | 16 GB |
+| Disk | 20 GB | 50 GB |
+| CPU | 4 cores | 8 cores |
+
+**Software**: Docker, Java 21+, Python 3.12+
 
 ## References
 
