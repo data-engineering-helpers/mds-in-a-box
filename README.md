@@ -119,6 +119,12 @@ these companies.
 * [Medium - Declarative Pipelining in Apache Spark Part 1](https://medium.com/apache-spark/declarative-pipelining-in-apache-spark-part-1-focus-on-your-data-not-your-dags-553a1056d178),
   March 2026
 
+### Stratum - DataBricks dbt with Quality and Governance
+
+* [GitHub - Stratum](https://github.com/dariazhl/stratum)
+* Author: Daria Z.
+* [Post on LinkedIn](https://www.linkedin.com/posts/daria-zahaleanu-01a9b6113_github-dariazhlstratum-share-7450205678415011840-gcpd)
+
 ### Build a Iceberg-based local open data lakehouse
 
 * Title: Build a local open data lakehouse with k3d, Apache Ozone,
