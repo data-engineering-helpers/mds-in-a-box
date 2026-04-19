@@ -5,6 +5,8 @@
 * [Modern Data Stack (MDS) in a box](#modern-data-stack-mds-in-a-box)
   * [Table of Content (ToC)](#table-of-content-toc)
   * [Overview](#overview)
+  * [Stack](#stack)
+  * [Requirements](#requirements)
   * [References](#references)
     * [Doc \- Docker](#doc---docker)
     * [Doc \- Unity Catalog](#doc---unity-catalog)
