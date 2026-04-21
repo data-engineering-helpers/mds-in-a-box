@@ -70,5 +70,14 @@ init-uc-table: ## Create table on UC
 list-tables: ## List tables in UC
 	@uc table list --catalog unity --schema default
 
+list-tables-xt: ## List tables in UC extended (xt)
+	@uc table list --catalog unityxt --schema bronze
+
 get-table-marksheet: ## Get the details of the marksheet table
 	@uc table get --full_name unity.default.marksheet
+
+get-table-dim_customer: ## Get the details of the dim_customer table
+	@uc table get --full_name unityxt.bronze.dim_customer
+
+read-table-dim_customer: ## Browse the dim_customer table
+	@uc table read --full_name unityxt.bronze.dim_customer --max_results 3
