@@ -13,6 +13,7 @@
     * [SeaweedFS](#seaweedfs)
     * [PostgreSQL](#postgresql)
     * [DuckDB](#duckdb)
+    * [Apache Arraw ecosystem](#apache-arraw-ecosystem)
   * [Alternative frameworks](#alternative-frameworks)
     * [Minio](#minio)
     * [LakeFS](#lakefs)
@@ -90,6 +91,16 @@ these companies.
 * [DuckDB home page](https://duckdb.org/)
   * [Why DuckDB](https://duckdb.org/why_duckdb)
 * [DuckDB project on GitHub](https://github.com/duckdb/duckdb)
+
+### Apache Arraw ecosystem
+
+* Title: The Apache Arrow Ecosystem
+* Date: Apr. 2026
+* Author: Hoyt Emerson
+  ([Hoyt Emerson on LinkedIn](https://www.linkedin.com/in/hoytemerson/),
+  [Hoyt Emerson on Substack](https://substack.com/@hoytemerson))
+* [Substack post](https://thefulldatastack.substack.com/p/the-apache-arrow-ecosystem)
+  * [LinkedIn post](https://www.linkedin.com/posts/hoytemerson_if-you-work-in-data-then-apache-arrow-is-activity-7452374396775821312-05vN/)
 
 ## Alternative frameworks
 
