@@ -130,6 +130,11 @@ these companies.
 * [Medium - Declarative Pipelining in Apache Spark Part 1](https://medium.com/apache-spark/declarative-pipelining-in-apache-spark-part-1-focus-on-your-data-not-your-dags-553a1056d178),
   March 2026
 
+### SoloLakehouse
+
+* [GitHub - SoloLakehouse](https://github.com/Jiahong-Que-9527/SoloLakehouse)
+* [LinkedIn post](https://www.linkedin.com/posts/jiahong-que-215428258_dataengineering-platformengineering-lakehouse-share-7455232883318853632-G-_f)
+
 ### Stratum - DataBricks dbt with Quality and Governance
 
 * [GitHub - Stratum](https://github.com/dariazhl/stratum)
