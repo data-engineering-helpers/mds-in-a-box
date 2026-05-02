@@ -4,3 +4,7 @@ metastore_db/
 spark-warehouse/
 dim_customer/
 
+# Python
+.venv/
+__pycache__/
+
