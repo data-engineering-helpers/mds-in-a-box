@@ -135,6 +135,20 @@ these companies.
 * [GitHub - SoloLakehouse](https://github.com/Jiahong-Que-9527/SoloLakehouse)
 * [LinkedIn post](https://www.linkedin.com/posts/jiahong-que-215428258_dataengineering-platformengineering-lakehouse-share-7455232883318853632-G-_f)
 
+### End-to-end restaurant analysis
+
+#### DataBricks - End-to-end restaurant analysis
+
+* [YouTube - End-to-end restaurant analysis](https://youtu.be/vy4G86q1rQY)
+
+#### Medallion - End-to-end restaurant analysis
+
+* [GitHub - Medallion - End-to-end restaurant analysis](https://github.com/mdshihabullah/restaurant-chain-lakehouse-analytics)
+
+#### Data Vault - End-to-end restaurant analysis
+
+* [GitHub - Data Vault - End-to-end restaurant analysis](https://github.com/mdshihabullah/restaurant-chain-datavault-lakehouse-analytics)
+
 ### Stratum - DataBricks dbt with Quality and Governance
 
 * [GitHub - Stratum](https://github.com/dariazhl/stratum)
