@@ -135,6 +135,10 @@ these companies.
 * [GitHub - SoloLakehouse](https://github.com/Jiahong-Que-9527/SoloLakehouse)
 * [LinkedIn post](https://www.linkedin.com/posts/jiahong-que-215428258_dataengineering-platformengineering-lakehouse-share-7455232883318853632-G-_f)
 
+### Local dbt development
+
+* [Medium post - Local dbt development](https://medium.com/doubleverify-engineering/unlocking-efficient-local-development-with-dbt-2b11fb9ab40f)
+
 ### End-to-end restaurant analysis
 
 #### DataBricks - End-to-end restaurant analysis
