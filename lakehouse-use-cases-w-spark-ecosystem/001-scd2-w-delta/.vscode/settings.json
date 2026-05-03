@@ -1,0 +1,10 @@
+{
+    "python-envs.defaultEnvManager": "ms-python.python:pyenv",
+    "chat.tools.terminal.autoApprove": {
+        "/^source \\.venv/bin/activate && pytest src/001_scd2_w_delta/test_001_delta_simple\\.py -q$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "uv": true
+    }
+}

@@ -1,0 +1,43 @@
+merge_customer_001_simple:
+  table: bronze.dim_customer
+  start_date_days_offset: 7
+  inputs:
+    init:
+      path: ../data/dim_customer/init
+      format: parquet
+    incremental:
+      path: ../data/dim_customer/inc1
+      format: parquet
+
+merge_customer_002_uc_only:
+  table: unityxt.bronze.dim_customer
+  start_date_days_offset: 7
+  inputs:
+    init:
+      path: ../data/dim_customer/init
+      format: parquet
+    incremental:
+      path: ../data/dim_customer/inc1
+      format: parquet
+
+merge_customer_003_sc_only:
+  table: bronze.dim_customer
+  start_date_days_offset: 7
+  inputs:
+    init:
+      path: ../data/dim_customer/init
+      format: parquet
+    incremental:
+      path: ../data/dim_customer/inc1
+      format: parquet
+
+merge_customer_004_sc_w_uc:
+  table: unityxt.bronze.dim_customer
+  start_date_days_offset: 7
+  inputs:
+    init:
+      path: ../data/dim_customer/init
+      format: parquet
+    incremental:
+      path: ../data/dim_customer/inc1
+      format: parquet

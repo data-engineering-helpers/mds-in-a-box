@@ -39,7 +39,7 @@ def test_merge_customer_001_simple():
     Test that the job ingesting initial and incremental data sets
     """
     # Execute the ingestion job
-    merge_customer_001_simple.main()
+    merge_customer_001_simple.main(argv=["--confs-dir", "confs", "--env", "local"])
     
     # Retrieve the Spark session
     spark = getSparkSession()

@@ -1,0 +1,30 @@
+merge_customer_001_simple:
+  app_name: scd2-app
+  enable_hive_support: true
+  configs:
+    spark.jars.packages: io.delta:delta-spark_4.1_2.13:4.2.0
+    spark.sql.extensions: io.delta.sql.DeltaSparkSessionExtension
+    spark.sql.catalog.spark_catalog: org.apache.spark.sql.delta.catalog.DeltaCatalog
+
+merge_customer_002_uc_only:
+  app_name: scd2-app-uc-only
+  configs:
+    spark.jars.packages: io.delta:delta-spark_4.1_2.13:4.2.0,io.unitycatalog:unitycatalog-spark_2.13:0.5.0-SNAPSHOT
+    spark.sql.extensions: io.delta.sql.DeltaSparkSessionExtension
+    spark.sql.catalog.spark_catalog: org.apache.spark.sql.delta.catalog.DeltaCatalog
+    spark.sql.catalog.unityxt: io.unitycatalog.spark.UCSingleCatalog
+    spark.sql.catalog.unityxt.uri: http://localhost:8080
+    spark.sql.catalog.unityxt.token: ""
+    spark.sql.defaultCatalog: unityxt
+
+merge_customer_003_sc_only:
+  app_name: scd2-app-sc-only
+  remote: sc://localhost:15002
+  configs:
+    spark.jars.packages: io.delta:delta-connect-client_4.1_2.13:4.2.0,com.google.protobuf:protobuf-java:3.25.1
+
+merge_customer_004_sc_w_uc:
+  app_name: scd2-app-sc-and-uc
+  remote: sc://localhost:15002
+  configs:
+    spark.jars.packages: io.delta:delta-connect-client_4.1_2.13:4.2.0,com.google.protobuf:protobuf-java:3.25.1

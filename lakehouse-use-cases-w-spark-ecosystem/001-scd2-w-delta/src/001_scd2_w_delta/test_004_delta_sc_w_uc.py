@@ -43,7 +43,7 @@ def test_merge_customer_004_sc_w_uc():
     Test that the job ingesting initial and incremental data sets
     """
     # Execute the ingestion job
-    merge_customer_004_sc_w_uc.main()
+    merge_customer_004_sc_w_uc.main(argv=["--confs-dir", "confs", "--env", "local"])
     
     # Retrieve the Spark session
     spark = getSparkSession()
@@ -54,7 +54,7 @@ def test_merge_customer_004_sc_w_uc():
 
     #
     nb_rows_dt = df_dt.count()
-    assert nb_rows_dt == 100
+    assert nb_rows_dt == 142
 
     # Derive only the rows which have been updated (they are no longer current)
     df_updated = df_dt.filter(df_dt.is_current == False)
