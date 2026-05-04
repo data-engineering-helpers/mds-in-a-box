@@ -190,8 +190,10 @@ uc table get --full_name unity.default.marksheet
 curl "http://localhost:8080/api/2.1/unity-catalog/tables/unity.default.marksheet"
 ```
 
-* (without proper S3 configuration for UC, that does not work yet)
-  Browse the first few records of a given table:
+* Browse the first few records of a given table. `uc table read` uses the
+  vended creds, which include the stub `s3.sessionToken.0`; SeaweedFS won't
+  recognize that token, so configure clients with the static keys directly
+  for S3 I/O:
 
 ```bash
 uc table read --full_name unity.default.marksheet --max_results 5
@@ -234,9 +236,9 @@ uc external_location get --name lh_ext_loc
 make init-uc-cat-sch
 ```
 
-* Note: the following does not work yet (because of an obscure missing S3 bucket
-  configuration).
-  Create a table managed by the `unityxt` extended (xt) catalog:
+* Create a table managed by the `unityxt` extended (xt) catalog. UC needs
+  the schema-level `--storage_root` (set by `init-uc-cat-sch`) to allocate
+  the staging table on S3 instead of `file:///tmp/`:
 
 ```bash
 make init-uc-table
