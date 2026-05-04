@@ -27,7 +27,7 @@ schema_name = "bronze"
 table_name = "dim_customer"
 delta_table_name = f"{catalog_name}.{schema_name}.{table_name}"
 cust_init_dataset = f"../data/{table_name}/init"
-cust_inc_dataset1 = f"../data/{table_name}/inc1"
+cust_full_dataset1 = f"../data/{table_name}/full1"
 
 def getSparkSession() -> SparkSession:
     spark = (
@@ -47,7 +47,7 @@ def getSparkSession() -> SparkSession:
 
 def test_merge_customer_002_uc_only():
     """
-    Test that the job ingesting initial and incremental data sets
+    Test that the job ingesting initial and full snapshot data sets
     """
     # Execute the ingestion job
     merge_customer_002_uc_only.main(argv=["--confs-dir", "confs", "--env", "local"])
@@ -66,7 +66,7 @@ def test_merge_customer_002_uc_only():
     # Derive only the rows which have been updated (they are no longer current)
     df_updated = df_dt.filter(df_dt.is_current == False)
     nb_rows_updated = df_updated.count()
-    assert nb_rows_updated == 42
+    assert nb_rows_updated == 46
 
 if __name__ == "__main__":
     test_merge_customer_002_uc_only()

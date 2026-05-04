@@ -165,8 +165,8 @@ make cleaners
 make init update
 ```
 
-* Generate the initial and incremental data-sets (it creates an stores Parquet
-  files for the initial and the incremental data-sets):
+* Generate the initial and full snapshot data-sets (it creates and stores Parquet
+  files for the initial and the full snapshot data-sets):
 
 ```bash
 make init-datasets
@@ -176,7 +176,7 @@ make init-datasets
 
 ```bash
 make check-dataset-init
-make check-dataset-incremental
+make check-dataset-full1
 ```
 
 * The remaining of the tasks depends on the variations, featured each in its
@@ -200,15 +200,15 @@ make init-database
 make check-database
 ```
 
-* If not already done so, generate the initial and incremental data-sets
-  (it creates an stores Parquet files for the initial and the incremental
+* If not already done so, generate the initial and full snapshot data-sets
+  (it creates and stores Parquet files for the initial and the full snapshot
   data-sets):
 
 ```bash
 make init-datasets
 ```
 
-* Test that the ingestion of the initial and incremental data-sets, filling the
+* Test that the ingestion of the initial and full snapshot data-sets, filling the
   Delta table, works as expected (PyTest executes the ingestion job and then
   checks are performed on the number of updated rows):
 
@@ -269,15 +269,15 @@ popd
 make init-uc-all
 ```
 
-* If not already done so, generate the initial and incremental data-sets
-  (it creates an stores Parquet files for the initial and the incremental
+* If not already done so, generate the initial and full snapshot data-sets
+  (it creates and stores Parquet files for the initial and the full snapshot
   data-sets):
 
 ```bash
 make init-datasets
 ```
 
-* Test that the ingestion of the initial and incremental data-sets, filling the
+* Test that the ingestion of the initial and full snapshot data-sets, filling the
   Delta table, works as expected (PyTest executes the ingestion job and then
   checks are performed on the number of updated rows):
 
@@ -343,8 +343,8 @@ make stop-sc
 make clean-database
 ```
 
-* If not already done so, generate the initial and incremental data-sets
-  (it creates an stores Parquet files for the initial and the incremental
+* If not already done so, generate the initial and full snapshot data-sets
+  (it creates and stores Parquet files for the initial and the full snapshot
   data-sets):
 
 ```bash
@@ -375,15 +375,15 @@ make init-database-sc
 make check-database-sc
 ```
 
-* If not already done so, generate the initial and incremental data-sets
-  (it creates an stores Parquet files for the initial and the incremental
+* If not already done so, generate the initial and full snapshot data-sets
+  (it creates and stores Parquet files for the initial and the full snapshot
   data-sets):
 
 ```bash
 make init-datasets
 ```
 
-* Ingest the initial and incremental data-sets, filling the Delta table:
+* Ingest the initial and full snapshot data-sets, filling the Delta table:
 
 ```bash
 make ingest-datasets-sc-only
@@ -491,15 +491,15 @@ make start-sc-w-uc
 make check-sc
 ```
 
-* If not already done so, generate the initial and incremental data-sets
-  (it creates an stores Parquet files for the initial and the incremental
+* If not already done so, generate the initial and full snapshot data-sets
+  (it creates and stores Parquet files for the initial and the full snapshot
   data-sets):
 
 ```bash
 make init-datasets
 ```
 
-* Ingest the initial and incremental data-sets, filling the Delta table:
+* Ingest the initial and full snapshot data-sets, filling the Delta table:
 
 ```bash
 make ingest-datasets-sc-w-uc

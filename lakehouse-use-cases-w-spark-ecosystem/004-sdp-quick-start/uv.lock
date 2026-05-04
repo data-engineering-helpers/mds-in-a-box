@@ -32,7 +32,7 @@ lint = [
 
 [package.metadata]
 requires-dist = [
-    { name = "delta-spark", specifier = "~=4.0.1" },
+    { name = "delta-spark", specifier = "~=4.2.0" },
     { name = "faker" },
     { name = "pyspark", extras = ["pipelines"], specifier = "~=4.1.1" },
 ]
@@ -186,15 +186,15 @@ wheels = [
 
 [[package]]
 name = "delta-spark"
-version = "4.0.1"
+version = "4.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "importlib-metadata" },
     { name = "pyspark" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/8f/4d/9670c5b109fb1c7a84814525cb116203cc36a6112eca546785d617f41a08/delta_spark-4.0.1.tar.gz", hash = "sha256:066512d723f615c9a900e1aa4d83bbc7d0f27a1703e1d5dc52606ea51b8733cc", size = 35521, upload-time = "2026-01-10T02:40:50.315Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/37/e4/dcf0afa219bc454d5edab65a4defd4dc90e196fdb8c6fb5156ec6d7fc468/delta_spark-4.2.0.tar.gz", hash = "sha256:198079cf74ee40788895a73111900095ebaed2c631205315868b4406c521e0d5", size = 45896, upload-time = "2026-04-10T23:31:30.102Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/13/22/a3716bc5ea86786be5f0afd09f62b20e6a111fa2d78868e930b19367a88c/delta_spark-4.0.1-py3-none-any.whl", hash = "sha256:ae0707eda68f05c6ec20b841c8966bb1201d1a5f124d9e94e8c2232162139be8", size = 43002, upload-time = "2026-01-10T02:40:49.047Z" },
+    { url = "https://files.pythonhosted.org/packages/0a/86/766c7cb36a5209c09222be74bad9c047da22690c8e562fab4be29b6a5776/delta_spark-4.2.0-py3-none-any.whl", hash = "sha256:46327eaeb50915aec3b66bb4ab8fb8db7f90774f2a3bb65bb859333cedc6ef8f", size = 53929, upload-time = "2026-04-10T23:31:28.884Z" },
 ]
 
 [[package]]

@@ -28,7 +28,7 @@ schema_name = "bronze"
 table_name = "dim_customer"
 delta_table_name = f"{catalog_name}.{schema_name}.{table_name}"
 cust_init_dataset = f"../data/{table_name}/init"
-cust_inc_dataset1 = f"../data/{table_name}/inc1"
+cust_full_dataset1 = f"../data/{table_name}/full1"
 sc_url = "sc://localhost:15002"
 
 #
@@ -53,11 +53,13 @@ create table {delta_table_name} (
   website string,
   current_location_lat double,
   current_location_lon double,
+  extraction_date date,
   start_date date,
   end_date date,
   is_current boolean
 )
 using delta
+partitioned by (extraction_date)
 tblproperties('delta.feature.catalogManaged' = 'supported')
 --location '{delta_table_name}'
 ;

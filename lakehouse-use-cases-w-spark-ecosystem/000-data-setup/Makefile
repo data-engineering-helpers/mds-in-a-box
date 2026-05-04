@@ -27,7 +27,9 @@ clean-install: ## Clean the project installation.
 	rm -rf .venv/
 
 clean-datasets: ## Clean generated datasets
-	rm -rf $(DATA_CUST_DIR)/init $(DATA_CUST_DIR)/inc1
+	rm -rf $(DATA_CUST_DIR)/init $(DATA_CUST_DIR)/inc1 \
+		$(DATA_CUST_DIR)/full1 $(DATA_CUST_DIR)/full2 \
+		$(DATA_CUST_DIR)/delta1 $(DATA_CUST_DIR)/delta2
 
 cleaners: clean-logs clean-python clean-package clean-install clean-datasets ## Clean everything
 
@@ -44,11 +46,23 @@ init-datasets: ## Generate sample datasets
 	@echo "Customer data source generated in $(DATA_CUST_DIR)/"
 	@command -v tree > /dev/null && tree $(DATA_CUST_DIR)/ || echo "The tree command does not seem to be installed. Please install it to analyze the content of the local file-system"
 
-check-dataset-init: ## Analyze the initial data-set
-	uv run datanomy $(DATA_CUST_DIR)/init/part*.parquet
+check-dataset-init: ## Analyze the initial snapshot data set
+	uv run datanomy $(DATA_CUST_DIR)/init/extraction_date=*/part*.parquet
 
-check-dataset-incremental: ## Analyze the incremental data-set
-	uv run datanomy $(DATA_CUST_DIR)/inc1/part*.parquet
+check-dataset-full1: ## Analyze the first full snapshot data set
+	uv run datanomy $(DATA_CUST_DIR)/full1/extraction_date=*/part*.parquet
+
+check-dataset-full2: ## Analyze the second full snapshot data set
+	uv run datanomy $(DATA_CUST_DIR)/full2/extraction_date=*/part*.parquet
+
+check-dataset-delta1: ## Analyze the first delta data set
+	uv run datanomy $(DATA_CUST_DIR)/delta1/extraction_date=*/part*.parquet
+
+check-dataset-delta2: ## Analyze the second delta data set
+	uv run datanomy $(DATA_CUST_DIR)/delta2/extraction_date=*/part*.parquet
+
+check-dataset-incremental: ## Backward-compatible alias for the first full snapshot
+	@$(MAKE) check-dataset-full1
 
 #
 init: ## Setup Python virtual environment

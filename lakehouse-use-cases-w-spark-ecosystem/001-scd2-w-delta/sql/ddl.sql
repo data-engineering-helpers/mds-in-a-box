@@ -36,11 +36,13 @@ create table bronze.dim_customer (
   ssn string,
   username string,
   website string,
+  extraction_date date,
   start_date date,
   end_date date,
   is_current boolean
 )
 using delta
+partitioned by (extraction_date)
 --location 'dim_customer'
 ;
 

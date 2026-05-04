@@ -1,43 +1,59 @@
 merge_customer_001_simple:
   table: bronze.dim_customer
-  start_date_days_offset: 7
+  start_date_days_offset: 0
   inputs:
     init:
       path: ../data/dim_customer/init
       format: parquet
-    incremental:
-      path: ../data/dim_customer/inc1
+      partition_column: extraction_date
+      partition_strategy: latest
+    full_snapshot:
+      path: ../data/dim_customer/full1
       format: parquet
+      partition_column: extraction_date
+      partition_strategy: latest
 
 merge_customer_002_uc_only:
   table: unityxt.bronze.dim_customer
-  start_date_days_offset: 7
+  start_date_days_offset: 0
   inputs:
     init:
       path: ../data/dim_customer/init
       format: parquet
-    incremental:
-      path: ../data/dim_customer/inc1
+      partition_column: extraction_date
+      partition_strategy: latest
+    full_snapshot:
+      path: ../data/dim_customer/full1
       format: parquet
+      partition_column: extraction_date
+      partition_strategy: latest
 
 merge_customer_003_sc_only:
   table: bronze.dim_customer
-  start_date_days_offset: 7
+  start_date_days_offset: 0
   inputs:
     init:
       path: ../data/dim_customer/init
       format: parquet
-    incremental:
-      path: ../data/dim_customer/inc1
+      partition_column: extraction_date
+      partition_strategy: latest
+    full_snapshot:
+      path: ../data/dim_customer/full1
       format: parquet
+      partition_column: extraction_date
+      partition_strategy: latest
 
 merge_customer_004_sc_w_uc:
   table: unityxt.bronze.dim_customer
-  start_date_days_offset: 7
+  start_date_days_offset: 0
   inputs:
     init:
       path: ../data/dim_customer/init
       format: parquet
-    incremental:
-      path: ../data/dim_customer/inc1
+      partition_column: extraction_date
+      partition_strategy: latest
+    full_snapshot:
+      path: ../data/dim_customer/full1
       format: parquet
+      partition_column: extraction_date
+      partition_strategy: latest

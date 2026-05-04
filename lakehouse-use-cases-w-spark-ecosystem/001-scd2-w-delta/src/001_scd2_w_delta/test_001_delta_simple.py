@@ -20,7 +20,7 @@ schema_name = "bronze"
 table_name = "dim_customer"
 delta_table_name = f"{schema_name}.{table_name}"
 cust_init_dataset = f"../data/{table_name}/init"
-cust_inc_dataset1 = f"../data/{table_name}/inc1"
+cust_full_dataset1 = f"../data/{table_name}/full1"
 
 def getSparkSession() -> SparkSession:
     spark = (
@@ -36,7 +36,7 @@ def getSparkSession() -> SparkSession:
 
 def test_merge_customer_001_simple():
     """
-    Test that the job ingesting initial and incremental data sets
+    Test that the job ingesting initial and full snapshot data sets
     """
     # Execute the ingestion job
     merge_customer_001_simple.main(argv=["--confs-dir", "confs", "--env", "local"])
@@ -48,18 +48,23 @@ def test_merge_customer_001_simple():
     delta_table = dt.DeltaTable.forName(spark, delta_table_name)
     df_dt = delta_table.toDF()
 
-    # The table contains the list of:
-    # The (100) initial records
-    # The (42) records with a change
+    # After merging init (100 rows) with full1 (96 rows containing 42 changes and
+    # 4 deletions), SCD2 should produce 142 rows in total.
     nb_rows_dt = df_dt.count()
     assert nb_rows_dt == 142
 
-    # Derive only the rows which have been updated (they are no longer current)
-    # Note that among the (100) initial records, the (42) ones with a change have
-    # their is_current field set to False
+    # Historical rows are 42 replaced rows + 4 closed deletions.
     df_updated = df_dt.filter(df_dt.is_current == False)
     nb_rows_updated = df_updated.count()
-    assert nb_rows_updated == 42
+    assert nb_rows_updated == 46
+
+    # Current rows match the full1 snapshot size.
+    df_current = df_dt.filter(df_dt.is_current == True)
+    nb_rows_current = df_current.count()
+    assert nb_rows_current == 96
+
+    # Extraction date is mandatory in the upgraded schema.
+    assert "extraction_date" in df_dt.columns
 
 if __name__ == "__main__":
     test_merge_customer_001_simple()

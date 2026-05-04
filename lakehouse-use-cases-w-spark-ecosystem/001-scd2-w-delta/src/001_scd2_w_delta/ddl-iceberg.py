@@ -33,11 +33,13 @@ create table {delta_table_name} (
   website string,
   current_location_lat double,
   current_location_lon double,
+  extraction_date date,
   start_date date,
   end_date date,
   is_current boolean
 )
 using delta
+partitioned by (extraction_date)
 --location '{delta_table_name}'
 ;
 """

@@ -167,7 +167,7 @@ init-uc-table: ## Initialize the dim_customer table in Unity Catalog (UC)
 		company string, job string, mail string, name string, residence string, \
 		sex string, ssn string, username string, website string, \
 		current_location_lat double, current_location_lon double, \
-		start_date date, end_date date, is_current boolean" \
+		extraction_date date, start_date date, end_date date, is_current boolean" \
 		--table_type MANAGED --format DELTA \
 		--properties '{"key1": "value1", "key2": "value2"}'
 
@@ -217,11 +217,14 @@ stop-sc: ## Stop Spark Connect (SC)
 
 ## Checkers
 
-check-dataset-init: ## Analyze the initial data-set
+check-dataset-init: ## Analyze the initial snapshot data set
 	@$(MAKE) -C $(DSTSTP_DIR) check-dataset-init
 
-check-dataset-incremental: ## Analyze the incremental data-set
-	@$(MAKE) -C $(DSTSTP_DIR) check-dataset-incremental
+check-dataset-full1: ## Analyze the first full snapshot data set
+	@$(MAKE) -C $(DSTSTP_DIR) check-dataset-full1
+
+check-dataset-incremental: ## Backward-compatible alias for the first full snapshot
+	@$(MAKE) check-dataset-full1
 
 check-database: ## Check the content of the Spark database, if existing
 	@echo "Checking whether the the $(CSTDST_DIR)/ directory has been created..."
@@ -302,10 +305,10 @@ browse-uc: ## Browse the content of Unity Catalog (UC)
 	@$(UC_DIR)/bin/uc table read --full_name unityxt.bronze.dim_customer --max_results 3
 
 #
-test-ingest-datasets-simple: ## Test the ingestion of the customer-related datasets (initial and incremental) - Simple version
+test-ingest-datasets-simple: ## Test the ingestion of the customer-related datasets (initial and full snapshot) - Simple version
 	@pytest src/001_scd2_w_delta/test_001_delta_simple.py
 
-ingest-datasets-simple: ## Ingest the customer-related datasets (initial and incremental) - Simple version
+ingest-datasets-simple: ## Ingest the customer-related datasets (initial and full snapshot) - Simple version
 	@$(MAKE) check-database
 	@echo "Merging datasets into the table. Check logs/merge_customer_001_simple.log"
 	@mkdir -p logs
@@ -313,10 +316,10 @@ ingest-datasets-simple: ## Ingest the customer-related datasets (initial and inc
 		> logs/merge_customer_001_simple.log 2>&1
 	@$(MAKE) check-database
 
-test-ingest-datasets-uc-only: ## Test the ingestion of the customer-related datasets (initial and incremental) - Version for UC only
+test-ingest-datasets-uc-only: ## Test the ingestion of the customer-related datasets (initial and full snapshot) - Version for UC only
 	@pytest src/001_scd2_w_delta/test_002_delta_uc_only.py
 
-ingest-datasets-uc-only: ## Ingest the customer-related datasets (initial and incremental) - Version for UC only
+ingest-datasets-uc-only: ## Ingest the customer-related datasets (initial and full snapshot) - Version for UC only
 	@$(MAKE) check-uc-hard
 	@echo "Merging datasets into the table. Check logs/merge_customer_002_uc_only.log"
 	@mkdir -p logs
@@ -326,21 +329,21 @@ ingest-datasets-uc-only: ## Ingest the customer-related datasets (initial and in
 	@echo "Hint for next step: make browse-uc"
 
 # pyspark --remote $(SC_URL) --packages "io.delta:$(DL_SC_CLT_JAR),$(PB_DOM):$(PB_JAR)"
-test-ingest-datasets-sc-only: ## Test the ingestion of the customer-related datasets (initial and incremental) - Version for SC only
+test-ingest-datasets-sc-only: ## Test the ingestion of the customer-related datasets (initial and full snapshot) - Version for SC only
 	@pytest src/001_scd2_w_delta/test_003_delta_sc_only.py 2> /dev/null
 
 # pyspark --remote $(SC_URL) --packages "io.delta:$(DL_SC_CLT_JAR),$(PB_DOM):$(PB_JAR)"
-ingest-datasets-sc-only: init-log-dir ## Ingest the customer-related datasets (initial and incremental) - Version for SC only
+ingest-datasets-sc-only: init-log-dir ## Ingest the customer-related datasets (initial and full snapshot) - Version for SC only
 	@echo "Merging datasets into the table on SC. Check logs/merge_customer_003_sc_only.log"
 	time python src/001_scd2_w_delta/jobs/merge_customer_003_sc_only.py \
 		> logs/merge_customer_003_sc_only.log 2>&1
 
 # pyspark --remote $(SC_URL) --packages "io.delta:$(DL_SC_CLT_JAR),$(PB_DOM):$(PB_JAR)"
-test-ingest-datasets-sc-w-uc: ## Test the ingestion of the customer-related datasets (initial and incremental) - Version for SC with UC
+test-ingest-datasets-sc-w-uc: ## Test the ingestion of the customer-related datasets (initial and full snapshot) - Version for SC with UC
 	@pytest src/001_scd2_w_delta/test_004_delta_sc_w_uc.py 2> /dev/null
 
 # pyspark --remote $(SC_URL) --packages "io.delta:$(DL_SC_CLT_JAR),$(PB_DOM):$(PB_JAR)"
-ingest-datasets-sc-w-uc: ## Ingest the customer-related datasets (initial and incremental) - Version for SC with UC
+ingest-datasets-sc-w-uc: ## Ingest the customer-related datasets (initial and full snapshot) - Version for SC with UC
 	@$(MAKE) check-uc-hard
 	@echo "Check logs/merge_customer_004_sc_w_uc.log"
 	@mkdir -p logs

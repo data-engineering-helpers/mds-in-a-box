@@ -3,6 +3,8 @@
 # File: https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/data-processing/spark/examples/004-sdp-quick-start/src/004_sdp_quick_start/spark-merge-customer.py
 #
 
+from datetime import date, timedelta
+
 from faker import Faker
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
@@ -11,6 +13,15 @@ import pyspark.sql.types as T
 #
 cust_init_dataset = "data/dim_customer/init"
 cust_inc_dataset = "data/dim_customer/inc1"
+
+
+def write_partitioned_dataset(df, path: str) -> None:
+    (
+        df.coalesce(1)
+        .write.mode("overwrite")
+        .partitionBy("extraction_date")
+        .parquet(path)
+    )
 
 def main() -> None:
     # Retrieve (or create) the Spark session
@@ -40,10 +51,14 @@ def main() -> None:
     udf_website = F.udf(lambda x: x[0], T.StringType())
     df_customer_init = df_customer_init.withColumn("website",
                                                    udf_website(df_customer_init.website))
+    df_customer_init = df_customer_init.withColumn(
+        "extraction_date",
+        F.lit((date.today() - timedelta(days=7)).isoformat()).cast("date"),
+    )
 
     # Write the Spark DataFrame to a local Parquet file in the specified
     # directory
-    df_customer_init.coalesce(1).write.mode("overwrite").save(cust_init_dataset)
+    write_partitioned_dataset(df_customer_init, cust_init_dataset)
 
     # Derive a sample from the initial dataset: take roughly 40% of the initial
     # dataset (that is, around 40 records out of 100)
@@ -57,10 +72,14 @@ def main() -> None:
     # Faker)
     udf_company = F.udf(lambda _: faker.company(), T.StringType())
     df_customer_inc1 = df_customer_inc1.withColumn("company", udf_company(df_customer_inc1.company))
+    df_customer_inc1 = df_customer_inc1.withColumn(
+        "extraction_date",
+        F.lit(date.today().isoformat()).cast("date"),
+    )
 
     # Write the Spark DataFrame to a local Parquet file in the specified
     # directory
-    df_customer_inc1.coalesce(1).write.mode("overwrite").save(cust_inc_dataset)
+    write_partitioned_dataset(df_customer_inc1, cust_inc_dataset)
     
 if __name__ == "__main__":
     main()

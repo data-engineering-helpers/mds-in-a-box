@@ -27,7 +27,7 @@ schema_name = "bronze"
 table_name = "dim_customer"
 delta_table_name = f"{schema_name}.{table_name}"
 cust_init_dataset = f"../data/{table_name}/init"
-cust_inc_dataset1 = f"../data/{table_name}/inc1"
+cust_inc_dataset1 = f"../data/{table_name}/full1"
 sc_url = "sc://localhost:15002"
 
 def getSparkSession() -> SparkSession:

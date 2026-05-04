@@ -37,16 +37,20 @@ make cleaners
 make init update
 ```
 
-* Generate the initial and incremental data-sets (it creates an stores Parquet
-  files for the initial and the incremental data-sets):
+* Generate the sample snapshots and delta data-sets (it creates Parquet files
+  for `init`, `full1`, `full2`, `delta1`, and `delta2`, partitioned by
+  `extraction_date`):
 
 ```bash
 make init-datasets
 ```
 
-* Analyze the generate data-sets with Datanomy:
+* Analyze the generated data-sets with Datanomy:
 
 ```bash
 make check-dataset-init
-make check-dataset-incremental
+make check-dataset-full1
+make check-dataset-full2
+make check-dataset-delta1
+make check-dataset-delta2
 ```

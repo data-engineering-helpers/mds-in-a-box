@@ -3,6 +3,8 @@
 # File: https://github.com/data-engineering-helpers/ks-cheat-sheets/blob/main/data-processing/spark/examples/004-sdp-quick-start/src/004_sdp_quick_start/spark-merge-customer.py
 #
 
+from pathlib import Path
+
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
 import delta.tables as dt
@@ -11,6 +13,25 @@ import delta.tables as dt
 cust_init_dataset = "data/dim_customer/init"
 cust_inc_dataset1 = "data/dim_customer/inc1"
 delta_table_name = "dim_customer"
+
+
+def read_latest_partition_dataset(spark: SparkSession, dataset_path: str):
+    partition_paths = sorted(Path(dataset_path).glob("extraction_date=*"))
+    if not partition_paths:
+        raise FileNotFoundError(
+            f"No extraction_date partition found under {dataset_path}"
+        )
+
+    latest_partition_path = max(
+        partition_paths,
+        key=lambda partition_path: partition_path.name,
+    )
+    print(f"Reading latest partition from {dataset_path}: {latest_partition_path}")
+    return (
+        spark.read
+        .option("basePath", dataset_path)
+        .parquet(str(latest_partition_path))
+    )
 
 def getSparkSession() -> SparkSession:
     spark = (
@@ -30,7 +51,7 @@ def displayCustTableHdr(spark: SparkSession):
     print(df_table_hdr)
 
 def processCustomerInit(spark: SparkSession):
-    source_df = spark.read.parquet(cust_init_dataset)
+    source_df = read_latest_partition_dataset(spark, cust_init_dataset)
 
     # DEBUG
     nb_rows_init = source_df.count()
@@ -59,7 +80,7 @@ def processCustomerInit(spark: SparkSession):
         displayCustTableHdr(spark=spark)
 
 def processCustomerInc1(spark: SparkSession):
-    inc_df = spark.read.parquet(cust_inc_dataset1)
+    inc_df = read_latest_partition_dataset(spark, cust_inc_dataset1)
 
     # DEBUG
     nb_rows_inc = inc_df.count()
