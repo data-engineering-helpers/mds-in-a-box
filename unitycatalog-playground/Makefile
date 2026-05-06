@@ -50,20 +50,55 @@ browse-s3: ## Browse the SeadweedFS S3-compatible file-system
 
 ## UC
 
-init-uc-cat-sch: ## Create catalog and schema with S3 location
-	@uc catalog create --name unityxt \
-		--storage_root s3://lakehouse/warehouse --comment "Extended catalog"
-	@uc schema create --catalog unityxt --name bronze \
-		--storage_root s3://lakehouse/warehouse --comment "Bronze schema"
+init-uc-cat-sch-xt: ## Create catalog and schema with S3 location
+	@uc catalog create --name unitysw \
+		--storage_root /home/unitycatalog/warehouse --comment "Extended catalog"
+	@uc schema create --catalog unitysw --name bronze \
+		--storage_root /home/unitycatalog/warehouse --comment "Bronze schema"
 
-init-uc-table: ## Create table on UC
+clean-uc-table-xt: ## Clean the table in Unity Catalog (UC)
+	@$(eval TBL_NAME=$(shell uc table list --catalog unityxt --schema bronze --output json | jq -r '.[]|select(.name|contains("dim_customer"))|.name'))
+	@if [ "$(TBL_NAME)" == "dim_customer" ]; then \
+		uc table delete --full_name unityxt.bronze.dim_customer ; \
+	else \
+		echo "Table dim_customer has not been created on UC in unityxt.bronze yet"; \
+		echo "No need to delete it" ; \
+	fi
+
+init-uc-table-xt: ## Initialize the dim_customer table in Unity Catalog (UC)
 	@uc table create \
 		--full_name unityxt.bronze.dim_customer \
-		--columns "address string, birthdate date, blood_group string, \
-              company string, job string, mail string, name string, residence string, \
-              sex string, ssn string, username string, website string, \
-              current_location_lat double, current_location_lon double, \
-              start_date date, end_date date, is_current boolean" \
+		--columns "uuid string, address string, birthdate date, blood_group string, \
+		company string, job string, mail string, name string, residence string, \
+		sex string, ssn string, username string, website string, \
+		current_location_lat double, current_location_lon double, \
+		extraction_date date, start_date date, end_date date, is_current boolean" \
+		--table_type MANAGED --format DELTA \
+		--properties '{"key1": "value1", "key2": "value2"}'
+
+init-uc-cat-sch-sw: ## Create catalog and schema with S3 location
+	@uc catalog create --name unitysw \
+		--storage_root s3://lakehouse/warehouse --comment "Extended catalog"
+	@uc schema create --catalog unitysw --name bronze \
+		--storage_root s3://lakehouse/warehouse --comment "Bronze schema"
+
+clean-uc-table-sw: ## Clean the table in Unity Catalog (UC)
+	@$(eval TBL_NAME=$(shell uc table list --catalog unitysw --schema bronze --output json | jq -r '.[]|select(.name|contains("dim_customer"))|.name'))
+	@if [ "$(TBL_NAME)" == "dim_customer" ]; then \
+		uc table delete --full_name unitysw.bronze.dim_customer ; \
+	else \
+		echo "Table dim_customer has not been created on UC in unitysw.bronze yet"; \
+		echo "No need to delete it" ; \
+	fi
+
+init-uc-table-sw: ## Initialize the dim_customer table in Unity Catalog (UC)
+	@uc table create \
+		--full_name unitysw.bronze.dim_customer \
+		--columns "uuid string, address string, birthdate date, blood_group string, \
+		company string, job string, mail string, name string, residence string, \
+		sex string, ssn string, username string, website string, \
+		current_location_lat double, current_location_lon double, \
+		extraction_date date, start_date date, end_date date, is_current boolean" \
 		--table_type MANAGED --format DELTA \
 		--properties '{"key1": "value1", "key2": "value2"}'
 
@@ -73,11 +108,14 @@ list-tables: ## List tables in UC
 list-tables-xt: ## List tables in UC extended (xt)
 	@uc table list --catalog unityxt --schema bronze
 
+list-tables-sw: ## List tables in UC with SeaweedFS (sw)
+	@uc table list --catalog unitysw --schema bronze
+
 get-table-marksheet: ## Get the details of the marksheet table
 	@uc table get --full_name unity.default.marksheet
 
 get-table-dim_customer: ## Get the details of the dim_customer table
-	@uc table get --full_name unityxt.bronze.dim_customer
+	@uc table get --full_name unitysw.bronze.dim_customer
 
 read-table-dim_customer: ## Browse the dim_customer table
-	@uc table read --full_name unityxt.bronze.dim_customer --max_results 3
+	@uc table read --full_name unitysw.bronze.dim_customer --max_results 3
