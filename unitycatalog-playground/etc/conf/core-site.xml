@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  File: https://github.com/data-engineering-helpers/mds-in-a-box/tree/main/unitycatalog-playground/etc/conf/core-site.xml
+
+  Hadoop S3A configuration for the Unity Catalog (UC) CLI.
+
+  When the CLI creates or reads a Delta table, it writes the Delta log directly
+  to s3a:// through Hadoop S3A (see io.unitycatalog.cli.delta.DeltaKernelUtils).
+  Against an S3-compatible backend like SeaweedFS this needs two things the
+  default UC setup does not provide:
+
+  1. A non-AWS endpoint. The CLI honors AWS_ENDPOINT_URL (see the fork commit
+     "Honor aws.endpoint for the CLI's Hadoop S3A client too"), which the
+     Makefile passes when invoking the in-container CLI.
+
+  2. Static-key signing. UC's per-bucket "static credential" mode (the only
+     non-STS path) vends a placeholder session token (s3.sessionToken.0 in
+     server.properties). Hadoop S3A forwards it as X-Amz-Security-Token, and
+     SeaweedFS rejects the request with
+     "InvalidAccessKeyId: The access key ID you provided does not exist".
+     Forcing SimpleAWSCredentialsProvider makes S3A sign with the access key
+     plus secret only and ignore the token, which SeaweedFS accepts.
+
+  This file is mounted onto the CLI classpath (examples/cli/target/classes) so
+  Hadoop's new Configuration() picks it up. The CLI never sets
+  fs.s3a.aws.credentials.provider itself, so this value wins.
+-->
+<configuration>
+  <property>
+    <name>fs.s3a.aws.credentials.provider</name>
+    <value>org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider</value>
+  </property>
+</configuration>

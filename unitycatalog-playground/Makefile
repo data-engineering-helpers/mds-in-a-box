@@ -8,6 +8,20 @@ AWS_SECRET_ACCESS_KEY := RediDemoKey0011223344556677ToBeReplaced0
 S3_ENDPOINT := http://localhost:8333
 AWS_REGION := us-east-1
 
+## Unity Catalog (UC) CLI
+# The SeaweedFS (sw) targets run `uc` from *inside* the UC container, not the
+# Homebrew `uc` on the host. `uc table create/read --format DELTA` writes the
+# Delta log directly to s3a:// via Hadoop S3A, and the upstream/Homebrew CLI has
+# no way to point S3A at a non-AWS endpoint, so it always reaches real AWS and
+# fails. The in-container build carries the fork's S3A endpoint fix, and the
+# mounted core-site.xml forces static-key signing that SeaweedFS accepts.
+#
+# host.docker.internal is used (not localhost) because the UC and SeaweedFS
+# containers run in separate Docker Compose networks; this matches aws.endpoint
+# in etc/conf/server.properties.
+UC_CONTAINER_S3_ENDPOINT := http://host.docker.internal:8333
+UC := docker exec -e AWS_ENDPOINT_URL=$(UC_CONTAINER_S3_ENDPOINT) unity-catalog ./bin/uc
+
 
 ## Container start/stop
 container-start-seaweedfs: ## Start SeaweedFS Docker containers
@@ -77,22 +91,22 @@ init-uc-table-xt: ## Initialize the dim_customer table in Unity Catalog (UC)
 		--properties '{"key1": "value1", "key2": "value2"}'
 
 init-uc-cat-sch-sw: ## Create catalog and schema with S3 location
-	@uc catalog create --name unitysw \
+	@$(UC) catalog create --name unitysw \
 		--storage_root s3://lakehouse/warehouse --comment "Extended catalog"
-	@uc schema create --catalog unitysw --name bronze \
+	@$(UC) schema create --catalog unitysw --name bronze \
 		--storage_root s3://lakehouse/warehouse --comment "Bronze schema"
 
 clean-uc-table-sw: ## Clean the table in Unity Catalog (UC)
-	@$(eval TBL_NAME=$(shell uc table list --catalog unitysw --schema bronze --output json | jq -r '.[]|select(.name|contains("dim_customer"))|.name'))
+	@$(eval TBL_NAME=$(shell $(UC) table list --catalog unitysw --schema bronze --output json | jq -r '.[]|select(.name|contains("dim_customer"))|.name'))
 	@if [ "$(TBL_NAME)" == "dim_customer" ]; then \
-		uc table delete --full_name unitysw.bronze.dim_customer ; \
+		$(UC) table delete --full_name unitysw.bronze.dim_customer ; \
 	else \
 		echo "Table dim_customer has not been created on UC in unitysw.bronze yet"; \
 		echo "No need to delete it" ; \
 	fi
 
 init-uc-table-sw: ## Initialize the dim_customer table in Unity Catalog (UC)
-	@uc table create \
+	@$(UC) table create \
 		--full_name unitysw.bronze.dim_customer \
 		--columns "uuid string, address string, birthdate date, blood_group string, \
 		company string, job string, mail string, name string, residence string, \
@@ -109,13 +123,13 @@ list-tables-xt: ## List tables in UC extended (xt)
 	@uc table list --catalog unityxt --schema bronze
 
 list-tables-sw: ## List tables in UC with SeaweedFS (sw)
-	@uc table list --catalog unitysw --schema bronze
+	@$(UC) table list --catalog unitysw --schema bronze
 
 get-table-marksheet: ## Get the details of the marksheet table
 	@uc table get --full_name unity.default.marksheet
 
 get-table-dim_customer: ## Get the details of the dim_customer table
-	@uc table get --full_name unitysw.bronze.dim_customer
+	@$(UC) table get --full_name unitysw.bronze.dim_customer
 
 read-table-dim_customer: ## Browse the dim_customer table
-	@uc table read --full_name unitysw.bronze.dim_customer --max_results 3
+	@$(UC) table read --full_name unitysw.bronze.dim_customer --max_results 3

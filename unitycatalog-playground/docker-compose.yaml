@@ -42,6 +42,15 @@ services:
       - type: bind
         source: ./etc/conf/server.properties
         target: /home/unitycatalog/etc/conf/server.properties
+      # Hadoop S3A config for the in-container `uc` CLI. Placed on the CLI
+      # classpath so `new Configuration()` loads it; forces
+      # SimpleAWSCredentialsProvider so S3A signs with the static access key +
+      # secret only (no session token), which SeaweedFS accepts. See the file's
+      # header comment for the full rationale.
+      - type: bind
+        source: ./etc/conf/core-site.xml
+        target: /home/unitycatalog/examples/cli/target/classes/core-site.xml
+        read_only: true
       # todo add a long-term database here since it can 
       # trip up the process when spinning the environment back up.
       #- type: volume
