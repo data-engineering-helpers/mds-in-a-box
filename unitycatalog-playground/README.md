@@ -192,8 +192,10 @@ curl "http://localhost:8080/api/2.1/unity-catalog/tables/unity.default.marksheet
 
 * Browse the first few records of a given table. `uc table read` uses the
   vended creds, which include the stub `s3.sessionToken.0`; SeaweedFS won't
-  recognize that token, so configure clients with the static keys directly
-  for S3 I/O:
+  recognize that token, so the Homebrew `uc` reaching S3 directly will be
+  rejected with `InvalidAccessKeyId`. For a managed Delta table on SeaweedFS
+  that reads end-to-end, use the in-container `*-sw` targets described in
+  [Managed Delta tables on SeaweedFS (sw)](#managed-delta-tables-on-seaweedfs-sw):
 
 ```bash
 uc table read --full_name unity.default.marksheet --max_results 5
@@ -243,6 +245,41 @@ make init-uc-cat-sch
 ```bash
 make init-uc-table
 ```
+
+#### Managed Delta tables on SeaweedFS (sw)
+
+* The `*-sw` targets create a `unitysw` catalog and `bronze` schema whose
+  storage root is the SeaweedFS bucket (`s3://lakehouse/warehouse`), then create
+  and read a `dim_customer` managed Delta table on it:
+
+```bash
+make init-s3              # create the lakehouse bucket (host AWS CLI -> :8333)
+make init-uc-cat-sch-sw   # catalog + schema with s3://lakehouse/warehouse root
+make init-uc-table-sw     # create the dim_customer managed Delta table
+make list-tables-sw
+make read-table-dim_customer
+```
+
+* Unlike the other targets, the `*-sw` targets run the `uc` CLI **inside the
+  `unity-catalog` container** (`docker exec ... ./bin/uc`) rather than the
+  Homebrew `uc` on the host. This is required because creating a managed Delta
+  table writes the Delta log directly to `s3a://` through Hadoop S3A from the
+  CLI, and:
+
+  1. The Homebrew/upstream CLI cannot point Hadoop S3A at a non-AWS endpoint, so
+     it always reaches real AWS and fails with
+     `Creating directories ... s3GetFileStatus` (see
+     [issue #2](https://github.com/data-engineering-helpers/mds-in-a-box/issues/2)).
+     The `infrahelpers/unitycatalog` image carries the fork's S3A endpoint fix
+     and honors `AWS_ENDPOINT_URL`, which the Makefile sets to
+     `http://host.docker.internal:8333`.
+
+  2. UC vends a placeholder session token (`s3.sessionToken.0` in
+     `etc/conf/server.properties`) that SeaweedFS rejects with
+     `InvalidAccessKeyId`. The mounted
+     [`etc/conf/core-site.xml`](./etc/conf/core-site.xml) forces Hadoop S3A to
+     use `SimpleAWSCredentialsProvider`, signing with the static access key and
+     secret only (no token), which SeaweedFS accepts.
 
 ### Stop the Lakehouse
 
