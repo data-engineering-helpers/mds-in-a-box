@@ -20,6 +20,7 @@
   * [End\-to\-end projects](#end-to-end-projects)
     * [Unity Catalog playground](#unity-catalog-playground)
     * [Lakehouse at home](#lakehouse-at-home)
+    * [OpenLakeForge](#openlakeforge)
     * [SoloLakehouse](#sololakehouse)
     * [Local dbt development](#local-dbt-development)
     * [End\-to\-end restaurant analysis](#end-to-end-restaurant-analysis)
@@ -51,16 +52,13 @@ these companies.
 ## References
 
 * [Architecture principles for data engineering pipelines on the Modern Data Stack (MDS)](https://github.com/data-engineering-helpers/architecture-principles)
-  * [Material for the Data platform - Architecture principles](https://github.com/data-engineering-helpers/architecture-principles/blob/main/material/README.md)
-* Specifications/principles for a
-  [data engineering pipeline deployment tool](https://github.com/data-engineering-helpers/data-pipeline-deployment)
-  * [`dpcctl`, the Data Processing Pipeline (DPP) CLI utility](https://github.com/data-engineering-helpers/dppctl),
-  a Minimal Viable Product (MVP) in Go
+* [Material for the Data platform - Architecture principles](https://github.com/data-engineering-helpers/architecture-principles/blob/main/material/README.md)
+* [Material for the Data platform - Declarative pipelines](https://github.com/data-engineering-helpers/declarative-data-pipelines)
 * [Material for the Data platform - Data-lakes, data warehouses, data lake-houses](https://github.com/data-engineering-helpers/data-lakehouse)
-* [Material for the Data platform - Data life cycle](https://github.com/data-engineering-helpers/data-life-cycle/blob/main/README.md)
-* [Material for the Data platform - Data contracts](https://github.com/data-engineering-helpers/data-contracts/blob/main/README.md)
-* [Material for the Data platform - Metadata](https://github.com/data-engineering-helpers/metadata/blob/main/README.md)
-* [Material for the Data platform - Data quality](https://github.com/data-engineering-helpers/data-quality/blob/main/README.md)
+* [Material for the Data platform - Data life cycle](https://github.com/data-engineering-helpers/data-life-cycle)
+* [Material for the Data platform - Data contracts](https://github.com/data-engineering-helpers/data-contracts)
+* [Material for the Data platform - Metadata](https://github.com/data-engineering-helpers/metadata)
+* [Material for the Data platform - Data quality](https://github.com/data-engineering-helpers/data-quality)
 * [Material for the Data platform - Cheat sheets](https://github.com/data-engineering-helpers/ks-cheat-sheets)
 
 ## Articles
@@ -138,6 +136,14 @@ these companies.
   [Lisa N. Cao on GitHub](https://github.com/lisancao))
 * [Medium - Declarative Pipelining in Apache Spark Part 1](https://medium.com/apache-spark/declarative-pipelining-in-apache-spark-part-1-focus-on-your-data-not-your-dags-553a1056d178),
   March 2026
+
+### OpenLakeForge
+
+* [GitHub - OpenLakeForge](https://github.com/malon64/openlakeforge)
+* Main contributor: Alexis Metwalli
+  ([Alexis Metwalli on LinkedIn](https://www.linkedin.com/in/alexis-metwalli/),
+  [Alexis Metwalli on GitHub](https://github.com/malon64))
+* [LinkedIn post](https://www.linkedin.com/feed/update/urn:li:activity:7463121583881138177/)
 
 ### SoloLakehouse
 
