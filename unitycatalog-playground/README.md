@@ -2,7 +2,7 @@
 
 ## Table of Content (ToC)
 
-* [Modern Data Stack (MDS) in a box](#modern-data-stack-mds-in-a-box)
+* [Modern Data Stack (MDS) in a box](#modern-data-stack-mds-in-a-box---unity-catalog-uc-playground)
   * [Table of Content (ToC)](#table-of-content-toc)
   * [Overview](#overview)
   * [Stack](#stack)
@@ -112,11 +112,57 @@ to test batch and streaming pipelines.
 
 ### Start the Lakehouse
 
-* Start the containers:
+* Bootstrap a local mode file from the tracked sample:
 
 ```bash
-make container-start
+make init-mode-file
 ```
+
+* Reset your local mode file from the sample at any time:
+
+```bash
+make reset-mode-file
+```
+
+* Edit `.cli-use-docker.var` if you want persistent custom settings
+  (`USE_DOCKER`, optional `UC_SOURCE`, optional `UC_LOCAL_ROOT`).
+
+* Docker mode is the default. Persist it explicitly if needed:
+
+```bash
+make use-docker
+make show-mode
+```
+
+* Start the stack (Docker or local services depending on `USE_DOCKER`):
+
+```bash
+make container-start-all
+```
+
+* Switch to local services mode:
+
+```bash
+make use-local
+make show-mode
+```
+
+* In local mode (`USE_DOCKER=0`), UC can come from Homebrew or a local
+  checkout. Configure that through `.cli-use-docker.var` (or by passing
+  `UC_SOURCE`/`UC_LOCAL_ROOT` to UC-related targets like `init-uc-cat-sch`).
+
+* Example local configuration in `.cli-use-docker.var`:
+
+```bash
+USE_DOCKER=0
+UC_SOURCE=local
+UC_LOCAL_ROOT=~/dev/infra/unitycatalog
+```
+
+* `make container-start-all` and `make container-stop-all` only use
+  `USE_DOCKER`. In Docker mode, UC always comes from the Docker container.
+
+* In `UC_SOURCE=local`, Homebrew `unitycatalog` service is stopped automatically.
 
 ### Interact with (SeaweedFS-powered) S3
 
@@ -141,6 +187,10 @@ export AWS_REGION=us-east-1
 ```bash
 aws iam list-users
 ```
+
+* Note: Make targets already inject the AWS S3 endpoint and credentials from
+  the Makefile variables. Manual exports are only needed if you run AWS CLI
+  commands directly outside Make.
 
 * With the AWS CLI, create the `lakehouse` bucket:
 
@@ -194,7 +244,7 @@ curl "http://localhost:8080/api/2.1/unity-catalog/tables/unity.default.marksheet
   vended creds, which include the stub `s3.sessionToken.0`; SeaweedFS won't
   recognize that token, so the Homebrew `uc` reaching S3 directly will be
   rejected with `InvalidAccessKeyId`. For a managed Delta table on SeaweedFS
-  that reads end-to-end, use the in-container `*-sw` targets described in
+  that reads end-to-end, use the mode-aware SeaweedFS targets described in
   [Managed Delta tables on SeaweedFS (sw)](#managed-delta-tables-on-seaweedfs-sw):
 
 ```bash
@@ -235,11 +285,11 @@ uc external_location get --name lh_ext_loc
 * Create the `unityxt` extended (xt) catalog and Bronze schema:
 
 ```bash
-make init-uc-cat-sch
+make init-uc-cat-sch-xt
 ```
 
 * Create a table managed by the `unityxt` extended (xt) catalog. UC needs
-  the schema-level `--storage_root` (set by `init-uc-cat-sch`) to allocate
+  the schema-level `--storage_root` (set by `init-uc-cat-sch-xt`) to allocate
   the staging table on S3 instead of `file:///tmp/`:
 
 ```bash
@@ -248,25 +298,36 @@ make init-uc-table
 
 #### Managed Delta tables on SeaweedFS (sw)
 
-* The `*-sw` targets create a `unitysw` catalog and `bronze` schema whose
+* These targets create a `unitysw` catalog and `bronze` schema whose
   storage root is the SeaweedFS bucket (`s3://lakehouse/warehouse`), then create
   and read a `dim_customer` managed Delta table on it:
 
 ```bash
 make init-s3              # create the lakehouse bucket (host AWS CLI -> :8333)
-make init-uc-cat-sch-sw   # catalog + schema with s3://lakehouse/warehouse root
-make init-uc-table-sw     # create the dim_customer managed Delta table
-make list-tables-sw
+make init-uc-cat-sch      # catalog + schema with s3://lakehouse/warehouse root
+make init-uc-table        # create the dim_customer managed Delta table
+make list-tables
+make get-table-dim_customer
 make read-table-dim_customer
 ```
 
-* Unlike the other targets, the `*-sw` targets run the `uc` CLI **inside the
-  `unity-catalog` container** (`docker exec ... ./bin/uc`) rather than the
-  Homebrew `uc` on the host. This is required because creating a managed Delta
+* UC execution source depends on infra mode:
+
+  1. With `USE_DOCKER=1`, UC is always run from the `unity-catalog` container
+    (`docker exec ... ./bin/uc`).
+
+  2. With `USE_DOCKER=0`, `UC_SOURCE=brew` runs `uc` from your PATH (for
+    example Homebrew install).
+
+  3. With `USE_DOCKER=0`, `UC_SOURCE=local` runs `UC_LOCAL_ROOT/bin/uc` from a
+    local git checkout (for example `~/dev/infra/unitycatalog`).
+
+* Docker UC remains the most reliable path for managed Delta + SeaweedFS,
+  because creating a managed Delta
   table writes the Delta log directly to `s3a://` through Hadoop S3A from the
   CLI, and:
 
-  1. The Homebrew/upstream CLI cannot point Hadoop S3A at a non-AWS endpoint, so
+    1. The Homebrew/upstream CLI cannot point Hadoop S3A at a non-AWS endpoint, so
      it always reaches real AWS and fails with
      `Creating directories ... s3GetFileStatus` (see
      [issue #2](https://github.com/data-engineering-helpers/mds-in-a-box/issues/2)).
@@ -274,19 +335,50 @@ make read-table-dim_customer
      and honors `AWS_ENDPOINT_URL`, which the Makefile sets to
      `http://host.docker.internal:8333`.
 
-  2. UC vends a placeholder session token (`s3.sessionToken.0` in
-     `etc/conf/server.properties`) that SeaweedFS rejects with
-     `InvalidAccessKeyId`. The mounted
-     [`etc/conf/core-site.xml`](./etc/conf/core-site.xml) forces Hadoop S3A to
-     use `SimpleAWSCredentialsProvider`, signing with the static access key and
-     secret only (no token), which SeaweedFS accepts.
+    1. UC vends a placeholder session token (`s3.sessionToken.0` in
+      `etc/conf/server.properties`) that SeaweedFS rejects with
+      `InvalidAccessKeyId`. The mounted
+      [`etc/conf/core-site.xml`](./etc/conf/core-site.xml) forces Hadoop S3A to
+      use `SimpleAWSCredentialsProvider`, signing with the static access key and
+      secret only (no token), which SeaweedFS accepts.
+
+### AI-friendly JSON test report
+
+* Generate a timestamped JSON report with environment metadata and command
+  outputs:
+
+```bash
+make capture-ai-json-report
+```
+
+* The target is best-effort: it still writes a report even if some UC or AWS
+  commands fail, and stores each failure in the corresponding command entry.
+
+* Output file pattern:
+
+```text
+tests/mds-test-<timestamp>.json
+```
+
+* The report contains:
+
+  1. Metadata (`host`, `os`, `architecture`, `USE_DOCKER`, effective UC source,
+     endpoint, UC/SeaweedFS versions)
+
+  2. Structured command results (`aws s3api list-buckets`,
+     `aws s3api list-objects-v2`, UC catalog/schema/table list, UC table
+     get/read)
+
+  3. Failure diagnostics for each command (`ok`, `exit`, `stdout`, `stderr`)
+
+* JSON artifacts are ignored by Git through `tests/.gitignore`.
 
 ### Stop the Lakehouse
 
-* At the end of the session, stop the containers:
+* At the end of the session, stop the stack (Docker or local services):
 
 ```bash
-make container-stop
+make container-stop-all
 ```
 
 ## Setup

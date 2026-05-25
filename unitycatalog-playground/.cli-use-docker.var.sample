@@ -1,0 +1,14 @@
+# Local mode/source configuration loaded by Makefile.
+# Copy this file to .cli-use-docker.var and adjust values as needed.
+
+# 1 = Docker containers, 0 = local Homebrew services.
+USE_DOCKER=1
+
+# Optional UC source override. Allowed values: docker, brew, local.
+# By default, Make derives UC_SOURCE from USE_DOCKER.
+# UC_SOURCE=docker
+# UC_SOURCE=brew
+# UC_SOURCE=local
+
+# Required when UC_SOURCE=local.
+# UC_LOCAL_ROOT=~/dev/infra/unitycatalog
