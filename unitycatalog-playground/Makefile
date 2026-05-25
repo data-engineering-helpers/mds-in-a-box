@@ -3,10 +3,12 @@
 #
 
 ## Environment
+AWS_REGION := us-east-1
 AWS_ACCESS_KEY_ID := 1234567890DEMO0KEY00
 AWS_SECRET_ACCESS_KEY := RediDemoKey0011223344556677ToBeReplaced0
 S3_ENDPOINT := http://localhost:8333
-AWS_REGION := us-east-1
+AWS_ENDPOINT_URL := $(S3_ENDPOINT)
+USE_DOCKER := 1
 
 ## Unity Catalog (UC) CLI
 # The SeaweedFS (sw) targets run `uc` from *inside* the UC container, not the
@@ -43,9 +45,9 @@ container-stop-all: container-stop-seaweedfs container-stop-uc ## Stop Docker co
 ## Init
 
 init-s3: ## Create the lakehouse bucket on S3
-	@aws s3 mb s3://lakehouse
-	@aws s3 cp README.md s3://lakehouse/
-	aws s3 ls --human --summarize --recursive s3://lakehouse/
+	@AWS_ENDPOINT_URL=$(AWS_ENDPOINT_URL) AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID) AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY) aws s3 mb s3://lakehouse
+	@AWS_ENDPOINT_URL=$(AWS_ENDPOINT_URL) AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID) AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY) aws s3 cp README.md s3://lakehouse/
+	AWS_ENDPOINT_URL=$(AWS_ENDPOINT_URL) AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID) AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY) aws s3 ls --human --summarize --recursive s3://lakehouse/
 
 init-uc-creds: ## Initialize the UC credentials
 	@uc credential create --name lh_aws_cred \
@@ -60,7 +62,7 @@ open-s3-browser: ## Browse the SeadweedFS S3-compatible file-system
 	@open http://localhost:8888/
 
 browse-s3: ## Browse the SeadweedFS S3-compatible file-system
-	@aws s3 ls --human --summarize --recursive s3://lakehouse/
+	@AWS_ENDPOINT_URL=$(AWS_ENDPOINT_URL) AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID) AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY) aws s3 ls --human --summarize --recursive s3://lakehouse/
 
 ## UC
 
@@ -128,8 +130,8 @@ list-tables-sw: ## List tables in UC with SeaweedFS (sw)
 get-table-marksheet: ## Get the details of the marksheet table
 	@uc table get --full_name unity.default.marksheet
 
-get-table-dim_customer: ## Get the details of the dim_customer table
+get-table-dim_customer-sw: ## Get the details of the dim_customer table
 	@$(UC) table get --full_name unitysw.bronze.dim_customer
 
-read-table-dim_customer: ## Browse the dim_customer table
+read-table-dim_customer-sw: ## Browse the dim_customer table
 	@$(UC) table read --full_name unitysw.bronze.dim_customer --max_results 3
