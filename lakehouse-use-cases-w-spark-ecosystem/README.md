@@ -69,6 +69,9 @@ features a few variations:
 * (WIP) [002 - Incremental vs full ingestion](002-incremental-vs-full//README.md)
 * (TBD) [003 - Row-level lineage](003-row-level-lineage/README.md)
 * (WIP) [004 - Getting started with Spark Declarative Pipelines (SDP)](004-sdp-quick-start/README.md)
+* [GitHub - Databricks customer predictive retention](https://github.com/shaheerbeig/databricks-customer-predictive-retention)
+  * [LinkedIn post - ](https://www.linkedin.com/posts/shaheer-beig_last-night-i-was-exploring-databricks-and-share-7473340361495519232-Blf6/)
+  * Author: [Shaheer Beig](https://www.linkedin.com/in/shaheer-beig/)
 
 ## Different ingestion types
 
