@@ -1,3 +1,5 @@
 #
 incoming-repositories/
+.venv/
+__pycache__/
 
